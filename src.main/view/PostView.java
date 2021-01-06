@@ -4,14 +4,18 @@ import controller.PostController;
 import model.Post;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
+
+import static java.lang.Runtime.getRuntime;
 
 public class PostView {
     private PostController postController = new PostController();
 
-    public PostView() throws IOException {
+    public PostView() throws IOException, ParseException {
         boolean exit = true;
         do {
+
             System.out.println("Введите номер действия, которые желаете произвести:");
             System.out.println("1. Вывести список всех постов.");
             System.out.println("2. Вывести пост по заданному id.");
@@ -36,19 +40,19 @@ public class PostView {
         return new Scanner(System.in);
     }
 
-    public void createPost() throws IOException {
+    public void createPost() throws IOException, ParseException {
         System.out.println("Введите содержимое поста:");
         String postContent = scanner().nextLine();
         Post post = postController.createPost(postContent);
         System.out.println("Вы добавили новый пост: " + post);
     }
 
-    public void getAllPosts() throws IOException {
+    public void getAllPosts() throws IOException, ParseException {
         System.out.println("Список постов:");
         System.out.println(postController.getAll());
     }
 
-    public void deletePost() throws IOException {
+    public void deletePost() throws IOException, ParseException {
         this.getAllPosts();
         System.out.println("Введите id поста, который желаете удалить:");
         Long id = scanner().nextLong();
@@ -58,14 +62,14 @@ public class PostView {
         this.getAllPosts();
     }
 
-    public void getPostById() throws IOException {
+    public void getPostById() throws IOException, ParseException {
         System.out.println("Введите id поста, который желаете получить:");
         Long id = scanner().nextLong();
         Post post = postController.getPostById(id);
         System.out.println("Запрашиваемый пост: " + post);
     }
 
-    public void updatePost() throws IOException {
+    public void updatePost() throws IOException, ParseException {
         System.out.println("Введите id поста, содержимое которого хотите изменить:");
         Long id = scanner().nextLong();
         System.out.println("Введите новое содержимое поста:");

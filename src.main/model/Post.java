@@ -11,12 +11,15 @@ public class Post {
     public Post(Long id, String content, Date created, Date updated) {
         this.id = id;
         this.content = content;
-        this.created = new Date();
-        this.updated = created;
+        this.created = created;
+        this.updated = updated;
     }
 
     public String toString() {
-        return this.id + this.content + "Дата создания: " + this.created + "Дата изменения:" + this.updated;
+        return "\n" + this.id + ". " + this.content + "\nДата создания: " + this.created + "\nДата изменения: " + this.updated;
+    }
+    public String write() {
+        return this.id + ". " + this.content + " Дата создания: " + this.created + " Дата изменения: " + this.updated;
     }
 
     public Long getId() {

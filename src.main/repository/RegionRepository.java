@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface RegionRepository extends GenericRepository<Region, Long> {
 
-
     Region save(Region region) throws IOException;
 
     List<Region> getAll() throws IOException;

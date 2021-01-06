@@ -25,8 +25,13 @@ public class RegionController {
     public Region getRegionById(Long id) throws IOException {
         return regionRepositoryImpl.getById(id);
     }
-    public Region updateRegion(Long id, String name)throws IOException{
-        Region updatedRegion= new Region(id,name);
+
+    public Region getRegionByName(String name) throws IOException {
+        return regionRepositoryImpl.getByName(name);
+    }
+
+    public Region updateRegion(Long id, String name) throws IOException {
+        Region updatedRegion = new Region(id, name);
         return regionRepositoryImpl.update(updatedRegion);
     }
 }

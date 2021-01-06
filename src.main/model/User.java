@@ -1,9 +1,7 @@
 package model;
 
-import model.Post;
-import model.Region;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
     Long id;
@@ -11,12 +9,32 @@ public class User {
     String lastName;
     List<Post> posts;
     Region region;
-    public User(){
+    Role role;
 
+    public User(Long id, String firstName, String lastName, List<Post> posts, Region region, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.posts = posts;
+        this.region = region;
+        this.role = role;
     }
-//    public String toString(){
-//        return id+firstName+lastName+region+posts;
-//    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String toString() {
+        List<Long> posts = this.posts.stream().map(Post::getId).collect(Collectors.toList());
+        String writePosts = posts.toString().replaceAll(" ", "");
+        return id + ". " + firstName + ", " + lastName + ", " + writePosts + ", " + region.getName() + ", " + role;
+    }
+
     public Long getId() {
         return id;
     }
@@ -56,6 +74,4 @@ public class User {
     public void setRegion(Region region) {
         this.region = region;
     }
-
-
 }

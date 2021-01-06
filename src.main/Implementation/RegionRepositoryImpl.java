@@ -17,7 +17,6 @@ public class RegionRepositoryImpl implements RegionRepository {
                 stream().map(line -> List.of(line.split(". ")))
                 .map(this::regionFromLine)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -26,6 +25,10 @@ public class RegionRepositoryImpl implements RegionRepository {
                 .collect(Collectors.toList()).get(0);
     }
 
+    public Region getByName(String name) throws IOException {
+        return getAll().stream().filter(line -> line.getName().equals(name))
+                .collect(Collectors.toList()).get(0);
+    }
 
     @Override
     public Region save(Region newRegion) throws IOException {
@@ -39,12 +42,10 @@ public class RegionRepositoryImpl implements RegionRepository {
     @Override
     public Region update(Region region) throws IOException {
         List<Region> list = getAll();
-
         Region updatedRegion = list.stream()
                 .filter(el -> el.getId().equals(region.getId()))
                 .findFirst().get();
         updatedRegion.setName(region.getName());
-
         writeLines(regions, list);
         return updatedRegion;
     }
@@ -70,13 +71,11 @@ public class RegionRepositoryImpl implements RegionRepository {
     }
 
     private Region regionFromLine(List<String> line) {
-
         return new Region(Long.parseLong(line.get(0)), line.get(1));
     }
 
     private Long generateID(List<Region> list) {
         return list.stream().map(Region::getId).max(Long::compare).get() + 1;
-
     }
 }
 
