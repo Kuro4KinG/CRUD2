@@ -1,7 +1,7 @@
 package com.kuro4king.crud.controller;
 
 import com.kuro4king.crud.model.Region;
-import com.kuro4king.crud.implementation.JavaIORegionRepositoryImpl;
+import com.kuro4king.crud.implementation.ioimpl.JavaIORegionRepositoryImpl;
 import com.kuro4king.crud.repository.RegionRepository;
 
 import java.io.IOException;

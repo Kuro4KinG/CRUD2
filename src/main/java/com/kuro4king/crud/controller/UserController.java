@@ -1,6 +1,6 @@
 package com.kuro4king.crud.controller;
 
-import com.kuro4king.crud.implementation.JavaIOUserRepositoryImpl;
+import com.kuro4king.crud.implementation.ioimpl.JavaIOUserRepositoryImpl;
 import com.kuro4king.crud.repository.UserRepository;
 import com.kuro4king.crud.model.Post;
 import com.kuro4king.crud.model.Region;

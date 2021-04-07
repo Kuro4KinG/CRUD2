@@ -4,9 +4,8 @@ import com.kuro4king.crud.controller.RegionController;
 import com.kuro4king.crud.model.Region;
 
 import java.io.IOException;
-import java.util.Scanner;
 
-public class RegionView {
+public class RegionView extends ViewClass{
     private RegionController regionController = new RegionController();
 
     public void start() throws IOException {
@@ -34,9 +33,7 @@ public class RegionView {
         } while (!exit);
     }
 
-    public Scanner scanner() {
-        return new Scanner(System.in);
-    }
+
 
     public void createRegion() throws IOException {
         System.out.println("Введите название региона:");

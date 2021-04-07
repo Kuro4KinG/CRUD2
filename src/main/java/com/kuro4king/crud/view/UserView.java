@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class UserView {
+public class UserView extends ViewClass {
     private final UserController userController = new UserController();
 
     public void start() throws IOException, ParseException {
@@ -41,10 +41,6 @@ public class UserView {
                 case 7 -> System.exit(0);
             }
         } while (!exit);
-    }
-
-    public Scanner scanner() {
-        return new Scanner(System.in);
     }
 
     public void createUser() throws IOException, ParseException {

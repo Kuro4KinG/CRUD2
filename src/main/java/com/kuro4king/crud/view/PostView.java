@@ -5,9 +5,8 @@ import com.kuro4king.crud.model.Post;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Scanner;
 
-public class PostView {
+public class PostView extends ViewClass{
     private PostController postController = new PostController();
 
     public void start() throws IOException, ParseException {
@@ -36,9 +35,7 @@ public class PostView {
         } while (!exit);
     }
 
-    public Scanner scanner() {
-        return new Scanner(System.in);
-    }
+
 
     public void createPost() throws IOException, ParseException {
         System.out.println("Введите содержимое поста:");
