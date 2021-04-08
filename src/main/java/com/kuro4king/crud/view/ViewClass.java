@@ -7,7 +7,12 @@ import java.util.Scanner;
 public abstract class ViewClass implements View {
     @Override
     public abstract void start() throws IOException, ParseException;
+
     public Scanner scanner() {
         return new Scanner(System.in);
+    }
+
+    public void exitMessage(int exitN) {
+        System.out.println(exitN + ". Завершить программу.");
     }
 }

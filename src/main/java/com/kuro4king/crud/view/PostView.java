@@ -6,36 +6,42 @@ import com.kuro4king.crud.model.Post;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class PostView extends ViewClass{
+public class PostView extends ViewClass {
     private PostController postController = new PostController();
+    boolean exit = false;
 
     public void start() throws IOException, ParseException {
-        boolean exit = false;
+
         do {
-            System.out.println("Введите номер действия, которые желаете произвести:");
-            System.out.println("1. Вывести список всех постов.");
-            System.out.println("2. Вывести пост по заданному id.");
-            System.out.println("3. Добавить новый пост.");
-            System.out.println("4. Удалить пост.");
-            System.out.println("5. Изменить содержимое поста.");
-            System.out.println("6. Вернуться к выбору файла");
-            System.out.println("7. Завершить программу.");
-
-            int choice = scanner().nextInt();
-            switch (choice) {
-                case 1 -> this.getAllPosts();
-                case 2 -> this.getPostById();
-                case 3 -> this.createPost();
-                case 4 -> this.deletePost();
-                case 5 -> this.updatePost();
-                case 6 -> exit = true;
-                case 7 -> System.exit(0);
-
-            }
+            print();
+            choose();
         } while (!exit);
     }
 
+    private void print() {
+        System.out.println("Введите номер действия, которые желаете произвести:");
+        System.out.println("1. Вывести список всех постов.");
+        System.out.println("2. Вывести пост по заданному id.");
+        System.out.println("3. Добавить новый пост.");
+        System.out.println("4. Удалить пост.");
+        System.out.println("5. Изменить содержимое поста.");
+        System.out.println("6. Вернуться к выбору файла");
+        exitMessage(7);
+    }
 
+    private void choose() throws IOException, ParseException {
+        int choice = scanner().nextInt();
+        switch (choice) {
+            case 1 -> this.getAllPosts();
+            case 2 -> this.getPostById();
+            case 3 -> this.createPost();
+            case 4 -> this.deletePost();
+            case 5 -> this.updatePost();
+            case 6 -> exit = true;
+            case 7 -> System.exit(0);
+
+        }
+    }
 
     public void createPost() throws IOException, ParseException {
         System.out.println("Введите содержимое поста:");
