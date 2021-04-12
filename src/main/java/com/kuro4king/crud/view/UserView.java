@@ -12,38 +12,36 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class UserView extends ViewClass {
     private final UserController userController = new UserController();
 
-    public void start() throws IOException, ParseException {
-        boolean exit = false;
-        do {
-            System.out.println("Введите номер действия, которые желаете произвести:");
-            System.out.println("1. Вывести список всех пользователей.");
-            System.out.println("2. Вывести информацию о пользователе по заданному id.");
-            System.out.println("3. Добавить нового пользователя.");
-            System.out.println("4. Удалить пользователя.");
-            System.out.println("5. Изменить информацию о пользователе.");
-            System.out.println("6. Вернуться к выбору файла");
-            System.out.println("7. Завершить программу.");
-
-            int choice = scanner().nextInt();
-            switch (choice) {
-                case 1 -> this.getAllUsers();
-                case 2 -> this.getUserById();
-                case 3 -> this.createUser();
-                case 4 -> this.deleteUser();
-                case 5 -> this.updateUser();
-                case 6 -> exit = true;
-                case 7 -> System.exit(0);
-            }
-        } while (!exit);
+    protected void print() {
+        System.out.println("Введите номер действия, которые желаете произвести:");
+        System.out.println("1. Вывести список всех пользователей.");
+        System.out.println("2. Вывести информацию о пользователе по заданному id.");
+        System.out.println("3. Добавить нового пользователя.");
+        System.out.println("4. Удалить пользователя.");
+        System.out.println("5. Изменить информацию о пользователе.");
+        System.out.println("6. Вернуться к выбору файла");
+        System.out.println("7. Завершить программу.");
     }
 
-    public void createUser() throws IOException, ParseException {
+    protected void choose() throws IOException, ParseException {
+        int choice = scanner().nextInt();
+        switch (choice) {
+            case 1 -> this.getAll();
+            case 2 -> this.getById();
+            case 3 -> this.create();
+            case 4 -> this.delete();
+            case 5 -> this.update();
+            case 6 -> super.exit = true;
+            case 7 -> System.exit(0);
+        }
+    }
+
+    public void create() throws IOException, ParseException {
         System.out.println("Введите имя пользователя:");
         String userFName = scanner().nextLine();
         System.out.println("Введите фамилию пользователя:");
@@ -69,22 +67,22 @@ public class UserView extends ViewClass {
         System.out.println(newUser);
     }
 
-    public void getAllUsers() throws IOException, ParseException {
+    public void getAll() throws IOException, ParseException {
         System.out.println("Список пользователей:");
         userController.getAll().forEach(System.out::println);
     }
 
-    public void deleteUser() throws IOException, ParseException {
-        this.getAllUsers();
+    public void delete() throws IOException, ParseException {
+        this.getAll();
         System.out.println("Введите id пользователя, которого желаете удалить:");
         Long id = scanner().nextLong();
         User deletedUser = userController.getUserById(id);
         userController.deleteUser(id);
         System.out.println("Удалён пользователь " + deletedUser);
-        this.getAllUsers();
+        this.getAll();
     }
 
-    public void getUserById() throws IOException, ParseException {
+    public void getById() throws IOException, ParseException {
         System.out.println("Введите id пользователя, который желаете получить:");
         Long id = scanner().nextLong();
         User user = userController.getUserById(id);
@@ -92,7 +90,7 @@ public class UserView extends ViewClass {
         System.out.println(user);
     }
 
-    public void updateUser() throws IOException, ParseException {
+    public void update() throws IOException, ParseException {
         System.out.println("Введите id пользователя, которого хотите изменить:");
         Long id = scanner().nextLong();
         System.out.println("Введите новое имя пользователя:");
@@ -117,6 +115,6 @@ public class UserView extends ViewClass {
         System.out.println(Arrays.toString(Role.values()));
         Role role = Role.valueOf(scanner().nextLine());
         userController.updateUser(id, firstName, lastName, listOfPosts, region, role);
-        this.getAllUsers();
+        this.getAll();
     }
 }

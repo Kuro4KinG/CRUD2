@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import com.kuro4king.crud.model.Region;
 
 public class JavaIORegionRepositoryImpl implements RegionRepository {
-    final String regions = "src/main/resources/files/txt/regions.txt";
+    final String regionPath = "src/main/resources/files/txt/regions.txt";
 
     @Override
     public List<Region> getAll() throws IOException {
-        return getLines(regions).
+        return getLines(regionPath).
                 stream()
                 .map(this::regionFromLine)
                 .collect(Collectors.toList());
@@ -36,28 +36,28 @@ public class JavaIORegionRepositoryImpl implements RegionRepository {
         List<Region> list = getAll();
         newRegion = new Region(generateID(list), newRegion.getName());
         list.add(newRegion);
-        writeLines(regions, list);
+        writeLines(regionPath, list);
         return newRegion;
     }
 
     @Override
     public Region update(Region region) throws IOException {
-        List<Region> list = getAll();
-        Region updatedRegion = list.stream()
+        List<Region> regions = getAll();
+        Region updatedRegion = regions.stream()
                 .filter(el -> el.getId().equals(region.getId()))
                 .findFirst().get();
         updatedRegion.setName(region.getName());
-        writeLines(regions, list);
+        writeLines(regionPath, regions);
         return updatedRegion;
     }
 
     @Override
     public void delete(Long id) throws IOException {
-        List<Region> list = getAll();
-        list.remove(list.stream().
+        List<Region> regions = getAll();
+        regions.remove(regions.stream().
                 filter(el -> el.getId().equals(id))
                 .collect(Collectors.toList()).get(0));
-        writeLines(regions, list);
+        writeLines(regionPath, regions);
     }
 
     private List<String> getLines(String path) throws IOException {

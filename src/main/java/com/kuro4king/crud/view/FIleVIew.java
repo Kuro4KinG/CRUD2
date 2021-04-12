@@ -14,34 +14,17 @@ public class FIleVIew extends ViewClass {
     HashMap<Integer, String> fileList = new HashMap<>();
     int i;
     int exitNumber;
-    boolean exit = false;
     int choice;
 
-    public void start() throws IOException, ParseException {
-        do {
-            print();
-            choose();
-        } while (!exit);
-    }
-
-    private void print() throws IOException {
+    public void print() throws IOException, ParseException {
         i = 1;
         System.out.println("Введите номер файла, с которым желаете работать:");
-        List files =
-                Files.walk(Paths.get("src/main/resources/files"))
-                        .filter(Files::isRegularFile)
-                        .collect(Collectors.toList());
-
-        for (Object file : files) {
-            String fileName = new File(file.toString()).getName();
-            System.out.println((i) + ". " + fileName);
-            fileList.put(i++, fileName);
-        }
+        this.getAll();
         exitNumber = i;
         exitMessage(exitNumber);
     }
 
-    private void choose() throws IOException, ParseException {
+    public void choose() throws IOException, ParseException {
         choice = scanner().nextInt();
         if (choice == exitNumber) {
             exit = true;
@@ -58,4 +41,37 @@ public class FIleVIew extends ViewClass {
         }
     }
 
+    @Override
+    protected void create() throws IOException, ParseException {
+        System.out.println("Данный функционал не реализован");
+    }
+
+    @Override
+    protected void getAll() throws IOException, ParseException {
+        List files =
+                Files.walk(Paths.get("src/main/resources/files"))
+                        .filter(Files::isRegularFile)
+                        .collect(Collectors.toList());
+
+        for (Object file : files) {
+            String fileName = new File(file.toString()).getName();
+            System.out.println((i) + ". " + fileName);
+            fileList.put(i++, fileName);
+        }
+    }
+
+    @Override
+    protected void delete() throws IOException, ParseException {
+        System.out.println("Данный функционал не реализован");
+    }
+
+    @Override
+    protected void getById() throws IOException, ParseException {
+        System.out.println("Данный функционал не реализован");
+    }
+
+    @Override
+    protected void update() throws IOException, ParseException {
+        System.out.println("Данный функционал не реализован");
+    }
 }

@@ -4,15 +4,40 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuro4king.crud.model.Region;
 import com.kuro4king.crud.repository.RegionRepository;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonRegionRepositoryImpl implements RegionRepository {
     final String regionPath = "src/main/resources/files/json/regions.json";
     Gson gson = new Gson();
+
+    @Override
+    public List<Region> getAll() throws IOException {
+        // FileReader fileReader = new FileReader(regionPath);
+        return gson.fromJson(new FileReader(regionPath), new TypeToken<ArrayList<Region>>() {
+        }.getType());
+        //  fileReader.close();
+        //  return regions;
+    }
+
+    @Override
+    public Region getById(Long id) throws IOException {
+        return getAll().stream().filter(line -> line.getId().equals(id))
+                .collect(Collectors.toList()).get(0);
+//        List<Region> regions = getAll();
+//        for (Region region :
+//                regions) {
+//            if (region.getId().equals(id))
+//                return region;
+//        }
+//        return null;
+    }
+
     @Override
     public Region save(Region region) throws IOException {
         List<Region> regions = getAll();
@@ -21,34 +46,19 @@ public class JsonRegionRepositoryImpl implements RegionRepository {
         return region;
     }
 
-    @Override
-    public List<Region> getAll() throws IOException {
-        FileReader fileReader = new FileReader(regionPath);
-        List<Region> regions = gson.fromJson(fileReader, new TypeToken<ArrayList<Region>>() {
-        }.getType());
-        fileReader.close();
-        return regions;
-    }
-
-    @Override
-    public Region getById(Long id) throws IOException {
-        List<Region> regions = getAll();
-        for (Region region :
-                regions) {
-            if (region.getId().equals(id))
-                return region;
-        }
-        return null;
-    }
 
     @Override
     public Region update(Region region) throws IOException {
         List<Region> regions = getAll();
-        for (Region reg :
-                regions) {
-            if (reg.getId().equals(region.getId()))
-                reg.setName(region.getName());
-        }
+        Region updatedRegion = regions.stream()
+                .filter(el -> el.getId().equals(region.getId()))
+                .findFirst().get();
+//        for (Region reg :
+//                regions) {
+//            if (reg.getId().equals(region.getId()))
+//                reg.setName(region.getName());
+//        }
+        updatedRegion.setName(region.getName());
         writeLines(regionPath, regions);
         return region;
     }
@@ -56,13 +66,16 @@ public class JsonRegionRepositoryImpl implements RegionRepository {
     @Override
     public void delete(Long id) throws IOException {
         List<Region> regions = getAll();
-        Region regionToDelete = null;
-        for (Region reg :
-                regions) {
-            if (reg.getId().equals(id))
-                regionToDelete = reg;
-        }
-        regions.remove(regionToDelete);
+        regions.remove(regions.stream().
+                filter(el -> el.getId().equals(id))
+                .collect(Collectors.toList()).get(0));
+//        Region regionToDelete = null;
+//        for (Region reg :
+//                regions) {
+//            if (reg.getId().equals(id))
+//                regionToDelete = reg;
+//        }
+//        regions.remove(regionToDelete);
         writeLines(regionPath, regions);
     }
 

@@ -10,15 +10,8 @@ public class PostView extends ViewClass {
     private PostController postController = new PostController();
     boolean exit = false;
 
-    public void start() throws IOException, ParseException {
 
-        do {
-            print();
-            choose();
-        } while (!exit);
-    }
-
-    private void print() {
+    protected void print() {
         System.out.println("Введите номер действия, которые желаете произвести:");
         System.out.println("1. Вывести список всех постов.");
         System.out.println("2. Вывести пост по заданному id.");
@@ -29,55 +22,55 @@ public class PostView extends ViewClass {
         exitMessage(7);
     }
 
-    private void choose() throws IOException, ParseException {
+    protected void choose() throws IOException, ParseException {
         int choice = scanner().nextInt();
         switch (choice) {
-            case 1 -> this.getAllPosts();
-            case 2 -> this.getPostById();
-            case 3 -> this.createPost();
-            case 4 -> this.deletePost();
-            case 5 -> this.updatePost();
-            case 6 -> exit = true;
+            case 1 -> this.getAll();
+            case 2 -> this.getById();
+            case 3 -> this.create();
+            case 4 -> this.delete();
+            case 5 -> this.update();
+            case 6 -> super.exit = true;
             case 7 -> System.exit(0);
 
         }
     }
 
-    public void createPost() throws IOException, ParseException {
+    public void create() throws IOException, ParseException {
         System.out.println("Введите содержимое поста:");
         String postContent = scanner().nextLine();
         Post post = postController.createPost(postContent);
         System.out.println("Вы добавили новый пост: " + post);
     }
 
-    public void getAllPosts() throws IOException, ParseException {
+    public void getAll() throws IOException, ParseException {
         System.out.println("Список постов:");
         System.out.println(postController.getAll());
     }
 
-    public void deletePost() throws IOException, ParseException {
-        this.getAllPosts();
+    public void delete() throws IOException, ParseException {
+        this.getAll();
         System.out.println("Введите id поста, который желаете удалить:");
         Long id = scanner().nextLong();
         Post deletedPost = postController.getPostById(id);
         postController.deletePost(id);
         System.out.println("Удалён пост " + deletedPost);
-        this.getAllPosts();
+        this.getAll();
     }
 
-    public void getPostById() throws IOException, ParseException {
+    public void getById() throws IOException, ParseException {
         System.out.println("Введите id поста, который желаете получить:");
         Long id = scanner().nextLong();
         Post post = postController.getPostById(id);
         System.out.println("Запрашиваемый пост: " + post);
     }
 
-    public void updatePost() throws IOException, ParseException {
+    public void update() throws IOException, ParseException {
         System.out.println("Введите id поста, содержимое которого хотите изменить:");
         Long id = scanner().nextLong();
         System.out.println("Введите новое содержимое поста:");
         String content = scanner().nextLine();
         postController.updatePost(id, content);
-        this.getAllPosts();
+        this.getAll();
     }
 }
