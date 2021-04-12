@@ -14,7 +14,7 @@ public class PostController {
     private PostRepository postRepository = new JavaIOPostRepositoryImpl();
 
     public Post createPost(String content) throws IOException, ParseException {
-        Post post = new Post(null, content, new Date(), new Date());
+        Post post = new Post(null, content);
         return postRepository.save(post);
     }
 
@@ -31,7 +31,8 @@ public class PostController {
     }
 
     public Post updatePost(Long id, String name) throws IOException, ParseException {
-        Post updatedPost = new Post(id, name, new Date(), new Date());
+        Post updatedPost = new Post(id, name);
+        updatedPost.setUpdated(new Date());
         return postRepository.update(updatedPost);
     }
 }

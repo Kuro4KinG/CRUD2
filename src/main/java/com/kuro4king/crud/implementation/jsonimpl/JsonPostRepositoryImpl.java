@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonPostRepositoryImpl implements PostRepository {
     final String postPath = "src/main/resources/files/json/posts.json";
@@ -20,60 +21,57 @@ public class JsonPostRepositoryImpl implements PostRepository {
 
     @Override
     public List<Post> getAll() throws IOException, ParseException {
-        FileReader fileReader = new FileReader(postPath);
-        List<Post> posts = gson.fromJson(fileReader, new TypeToken<ArrayList<Post>>() {
+        return gson.fromJson(new FileReader(postPath), new TypeToken<ArrayList<Post>>() {
         }.getType());
-        fileReader.close();
-        return posts;
 
     }
 
     @Override
     public Post getById(Long id) throws IOException, ParseException {
-        List<Post> posts = getAll();
-        for (Post post :
-                posts) {
-            if (post.getId().equals(id))
-                return post;
-        }
-        return null;
+        return getAll().stream().filter(line -> line.getId().equals(id))
+                .collect(Collectors.toList()).get(0);
     }
 
     @Override
-    public Post save(Post post) throws IOException, ParseException {
-        return null;
+    public Post save(Post newPost) throws IOException, ParseException {
+        List<Post> posts = getAll();
+        newPost = new Post(generateID(posts), newPost.getContent());
+        posts.add(newPost);
+        writeLines(this.postPath, posts);
+        return newPost;
     }
 
     @Override
     public Post update(Post post) throws IOException, ParseException {
         List<Post> posts = getAll();
-        for (Post p :
-                posts) {
-            if (p.getId().equals(post.getId())) {
-                p.setContent(post.getContent());
-                p.setUpdated(new Date());
-            }
-        }
+
+        Post updatedPost = posts.stream()
+                .filter(el -> el.getId().equals(post.getId()))
+                .findFirst().get();
+        updatedPost.setContent(post.getContent());
+        updatedPost.setUpdated(new Date());
         writeLines(postPath, posts);
-        return post;
+        return updatedPost;
     }
 
     @Override
     public void delete(Long id) throws IOException, ParseException {
-        List<Post> posts = getAll();
-        Post postToDelete = null;
-        for (Post p :
-                posts) {
-            if (p.getId().equals(id))
-                postToDelete = p;
-        }
-        posts.remove(postToDelete);
-        writeLines(postPath, posts);
+        List<Post> list = getAll();
+        list.remove(list.stream().
+                filter(el -> el.getId().equals(id))
+                .collect(Collectors.toList()).get(0));
+        writeLines(postPath, list);
     }
 
     private void writeLines(String postPath, List<Post> posts) throws IOException {
         FileWriter writer = new FileWriter(postPath);
         gson.toJson(posts, writer);
         writer.close();
+    }
+
+    private Long generateID(List<Post> list) {
+        if (!(list == null))
+            return list.stream().map(Post::getId).max(Long::compare).get() + 1;
+        else return null;
     }
 }

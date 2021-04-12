@@ -32,7 +32,7 @@ public class User {
     public String toString() {
         List<Long> posts = this.posts.stream().map(Post::getId).collect(Collectors.toList());
         String writePosts = posts.toString().replaceAll(" ", "");
-        return id + ". " + firstName + ", " + lastName + ", " + writePosts + ", " + region.getName() + ", " + role;
+        return "\n" + id + ". " + firstName + ", " + lastName + ", " + writePosts + ", " + region.getName() + ", " + role;
     }
 
     public Long getId() {

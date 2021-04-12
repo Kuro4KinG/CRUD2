@@ -8,16 +8,17 @@ public class Post {
     private Date created;
     private Date updated;
 
-    public Post(Long id, String content, Date created, Date updated) {
+    public Post(Long id, String content) {
         this.id = id;
         this.content = content;
-        this.created = created;
-        this.updated = updated;
+        this.created = new Date();
+        this.updated = created;
     }
 
     public String toString() {
         return "\n" + this.id + ". " + this.content + "\nДата создания: " + this.created + "\nДата изменения: " + this.updated;
     }
+
     public String write() {
         return this.id + ". " + this.content + " Дата создания: " + this.created + " Дата изменения: " + this.updated;
     }

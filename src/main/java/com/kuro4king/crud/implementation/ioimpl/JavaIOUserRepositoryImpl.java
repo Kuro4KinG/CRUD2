@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JavaIOUserRepositoryImpl implements UserRepository {
-    final String users = "src/main/resources/files/txt/users.txt";
+    final String userPath = "src/main/resources/files/txt/users.txt";
 
     @Override
     public List<User> getAll() throws IOException, ParseException {
         return
-                getLines(users).
+                getLines(userPath).
                         stream()
                         .map(line1 -> {
                             try {
@@ -43,18 +43,18 @@ public class JavaIOUserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User newUser) throws IOException, ParseException {
-        List<User> list = getAll();
-        newUser.setId(generateID(list));
-        list.add(newUser);
-        writeLines(users, list);
+        List<User> users = getAll();
+        newUser.setId(generateID(users));
+        users.add(newUser);
+        writeLines(userPath, users);
         return newUser;
     }
 
     @Override
     public User update(User user) throws IOException, ParseException {
-        List<User> list = getAll();
+        List<User> users = getAll();
 
-        User updatedUser = list.stream()
+        User updatedUser = users.stream()
                 .filter(el -> el.getId().equals(user.getId()))
                 .findFirst().get();
         updatedUser.setRole(user.getRole());
@@ -62,17 +62,17 @@ public class JavaIOUserRepositoryImpl implements UserRepository {
         updatedUser.setLastName(user.getLastName());
         updatedUser.setPosts(user.getPosts());
         updatedUser.setRegion(user.getRegion());
-        writeLines(users, list);
+        writeLines(userPath, users);
         return updatedUser;
     }
 
     @Override
     public void delete(Long id) throws IOException, ParseException {
-        List<User> list = getAll();
-        list.remove(list.stream().
+        List<User> users = getAll();
+        users.remove(users.stream().
                 filter(el -> el.getId().equals(id))
                 .collect(Collectors.toList()).get(0));
-        writeLines(users, list);
+        writeLines(userPath, users);
     }
 
     private List<String> getLines(String path) throws IOException {
@@ -104,6 +104,5 @@ public class JavaIOUserRepositoryImpl implements UserRepository {
 
     private Long generateID(List<User> list) {
         return list.stream().map(User::getId).max(Long::compare).get() + 1;
-
     }
 }

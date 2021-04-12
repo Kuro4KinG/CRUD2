@@ -15,12 +15,12 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class JavaIOPostRepositoryImpl implements PostRepository {
-    final String posts = "src/main/resources/files/txt/posts.txt";
+    final String postPath = "src/main/resources/files/txt/posts.txt";
 
     @Override
     public List<Post> getAll() throws IOException, ParseException {
         return
-                getLines(posts).
+                getLines(postPath).
                         stream().map(line -> {
                     try {
                         return postFromLine(line);
@@ -40,23 +40,23 @@ public class JavaIOPostRepositoryImpl implements PostRepository {
 
     @Override
     public Post save(Post newPost) throws IOException, ParseException {
-        List<Post> list = getAll();
-        newPost = new Post(generateID(list), newPost.getContent(), new Date(), new Date());
-        list.add(newPost);
-        writeLines(posts, list);
+        List<Post> posts = getAll();
+        newPost = new Post(generateID(posts), newPost.getContent());
+        posts.add(newPost);
+        writeLines(this.postPath, posts);
         return newPost;
     }
 
     @Override
     public Post update(Post post) throws IOException, ParseException {
-        List<Post> list = getAll();
+        List<Post> posts = getAll();
 
-        Post updatedPost = list.stream()
+        Post updatedPost = posts.stream()
                 .filter(el -> el.getId().equals(post.getId()))
                 .findFirst().get();
         updatedPost.setContent(post.getContent());
         updatedPost.setUpdated(new Date());
-        writeLines(posts, list);
+        writeLines(postPath, posts);
         return updatedPost;
     }
 
@@ -66,7 +66,7 @@ public class JavaIOPostRepositoryImpl implements PostRepository {
         list.remove(list.stream().
                 filter(el -> el.getId().equals(id))
                 .collect(Collectors.toList()).get(0));
-        writeLines(posts, list);
+        writeLines(postPath, list);
     }
 
     private List<String> getLines(String path) throws IOException {
@@ -83,7 +83,10 @@ public class JavaIOPostRepositoryImpl implements PostRepository {
     private Post postFromLine(String line) throws ParseException {
         String[] splitLine=line.split("\\. | Дата создания: | Дата изменения: ");
         SimpleDateFormat df = new SimpleDateFormat("E MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
-        return new Post(Long.parseLong(splitLine[0]), splitLine[1], df.parse(splitLine[2]), df.parse(splitLine[3]));
+        Post newPost =new Post(Long.parseLong(splitLine[0]), splitLine[1]);
+        newPost.setCreated(df.parse(splitLine[2]));
+        newPost.setUpdated(df.parse(splitLine[3]));
+        return newPost;
     }
 
     private Long generateID(List<Post> list) {

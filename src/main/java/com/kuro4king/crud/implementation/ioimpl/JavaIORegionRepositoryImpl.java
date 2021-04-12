@@ -33,10 +33,10 @@ public class JavaIORegionRepositoryImpl implements RegionRepository {
 
     @Override
     public Region save(Region newRegion) throws IOException {
-        List<Region> list = getAll();
-        newRegion = new Region(generateID(list), newRegion.getName());
-        list.add(newRegion);
-        writeLines(regionPath, list);
+        List<Region> regions = getAll();
+        newRegion = new Region(generateID(regions), newRegion.getName());
+        regions.add(newRegion);
+        writeLines(regionPath, regions);
         return newRegion;
     }
 

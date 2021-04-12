@@ -1,12 +1,14 @@
 [
   {
-    "content": "Первое содержимое поста в файле JSON",
-    "createDate": "",
-    "changeDate": ""
+    "id": 1,
+    "content": "Содержимое поста №1 JSON",
+    "created": "Apr 12, 2021, 8:51:18 PM",
+    "updated": "Apr 12, 2021, 8:52:52 PM"
   },
   {
-    "content": "Второе содержимое поста в файле JSON",
-    "createDate": "",
-    "changeDate": ""
+    "id": 2,
+    "content": "Содержимое поста №2 JSON",
+    "created": "Apr 12, 2021, 8:51:18 PM",
+    "updated": "Apr 12, 2021, 8:52:15 PM"
   }
 ]
