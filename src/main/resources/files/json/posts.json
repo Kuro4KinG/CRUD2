@@ -10,5 +10,11 @@
     "content": "Содержимое поста №2 JSON",
     "created": "Apr 12, 2021, 8:51:18 PM",
     "updated": "Apr 12, 2021, 8:52:15 PM"
+  },
+  {
+    "id": 3,
+    "content": "Содержимое поста №3 JSON",
+    "created": "Apr 12, 2021, 8:51:18 PM",
+    "updated": "Apr 12, 2021, 8:52:15 PM"
   }
 ]

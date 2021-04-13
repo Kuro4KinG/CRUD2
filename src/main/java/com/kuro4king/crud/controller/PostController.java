@@ -2,6 +2,7 @@ package com.kuro4king.crud.controller;
 
 import com.kuro4king.crud.implementation.ioimpl.JavaIOPostRepositoryImpl;
 
+import com.kuro4king.crud.implementation.jsonimpl.JsonPostRepositoryImpl;
 import com.kuro4king.crud.model.Post;
 import com.kuro4king.crud.repository.PostRepository;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PostController {
-    private PostRepository postRepository = new JavaIOPostRepositoryImpl();
+    private PostRepository postRepository = new JsonPostRepositoryImpl();
 
     public Post createPost(String content) throws IOException, ParseException {
         Post post = new Post(null, content);

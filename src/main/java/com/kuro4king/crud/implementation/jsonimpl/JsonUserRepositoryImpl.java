@@ -1,8 +1,15 @@
 package com.kuro4king.crud.implementation.jsonimpl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.kuro4king.crud.controller.PostController;
+import com.kuro4king.crud.controller.RegionController;
+import com.kuro4king.crud.model.Post;
 import com.kuro4king.crud.model.Region;
+import com.kuro4king.crud.model.Role;
 import com.kuro4king.crud.model.User;
 import com.kuro4king.crud.repository.UserRepository;
 
@@ -29,8 +36,24 @@ public class JsonUserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAll() throws IOException, ParseException {
-        return gson.fromJson(new FileReader(userPath), new TypeToken<ArrayList<User>>() {
-        }.getType());
+        FileReader fileReader = new FileReader(userPath);
+        Gson gson = new Gson();
+        List<User> users = new ArrayList<>();
+
+        JsonArray jsonArray = gson.fromJson(fileReader, JsonArray.class);
+        for (JsonElement obj :
+                jsonArray) {
+            JsonObject jsonObject = obj.getAsJsonObject();
+            Long id = jsonObject.get("id").getAsLong();
+            String firstName = jsonObject.get("firstName").getAsString();
+            String lastName = jsonObject.get("lastName").getAsString();
+            List<Post> posts = gson.fromJson(jsonObject.get("posts"), new TypeToken<ArrayList<Post>>() {
+            }.getType());
+            Region region = gson.fromJson(jsonObject.get("region"), Region.class);
+            Role role = Role.valueOf(jsonObject.get("role").getAsString());
+            users.add(new User(id, firstName, lastName, posts, region, role));
+        }
+        return users;
     }
 
     @Override

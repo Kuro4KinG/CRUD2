@@ -4,9 +4,17 @@
     "firstName": "Василий",
     "lastName": "Жданов",
     "posts": [
-      1
+      {
+        "id": 1,
+        "content": "Содержимое поста №1 JSON",
+        "created": "Apr 12, 2021, 8:51:18 PM",
+        "updated": "Apr 12, 2021, 8:52:52 PM"
+      }
     ],
-    "region": "AFRICA",
+    "region": {
+      "id": 2,
+      "name": "AFRICA"
+    },
     "role": "USER"
   },
   {
@@ -14,10 +22,17 @@
     "firstName": "Леонид",
     "lastName": "Жуков",
     "posts": [
-      2,
-      1
+      {
+        "id": 2,
+        "content": "Содержимое поста №2 JSON",
+        "created": "Apr 12, 2021, 8:51:18 PM",
+        "updated": "Apr 12, 2021, 8:52:15 PM"
+      }
     ],
-    "region": "ARCTIC",
+    "region": {
+      "id": 3,
+      "name": "ARCTIC"
+    },
     "role": "ADMIN"
   },
   {
@@ -25,9 +40,17 @@
     "firstName": "Тамара",
     "lastName": "Сомова",
     "posts": [
-      1
+      {
+        "id": 3,
+        "content": "Содержимое поста №3 JSON",
+        "created": "Apr 12, 2021, 8:51:18 PM",
+        "updated": "Apr 12, 2021, 8:52:15 PM"
+      }
     ],
-    "region": "ANTARCTIC",
+    "region": {
+      "id": 1,
+      "name": "ANTARCTIC"
+    },
     "role": "USER"
   }
 ]
