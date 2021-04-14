@@ -24,10 +24,13 @@ public abstract class ViewClass {
 
     public void start() throws IOException, ParseException {
         do {
+            System.out.println();
             print();
+            System.out.println();
             choose();
         } while (!exit);
     }
+
 
     public Scanner scanner() {
         return new Scanner(System.in);

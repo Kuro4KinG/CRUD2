@@ -19,7 +19,6 @@ public class JsonPostRepositoryImpl implements PostRepository {
     final String postPath = "src/main/resources/files/json/posts.json";
     Gson gson = new Gson();
 
-    @Override
     public List<Post> getAll() throws IOException, ParseException {
         return gson.fromJson(new FileReader(postPath), new TypeToken<ArrayList<Post>>() {
         }.getType());
