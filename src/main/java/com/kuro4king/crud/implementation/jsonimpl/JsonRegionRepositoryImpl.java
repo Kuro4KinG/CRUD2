@@ -71,6 +71,7 @@ public class JsonRegionRepositoryImpl implements RegionRepository {
         gson.toJson(regions, writer);
         writer.close();
     }
+
     private Long generateID(List<Region> list) {
         return list.stream().map(Region::getId).max(Long::compare).get() + 1;
     }

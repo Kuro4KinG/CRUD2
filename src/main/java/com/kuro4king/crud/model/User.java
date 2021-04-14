@@ -30,9 +30,16 @@ public class User {
     }
 
     public String toString() {
-        List<Long> posts = this.posts.stream().map(Post::getId).collect(Collectors.toList());
-        String writePosts = posts.toString().replaceAll(" ", "");
-        return "\n" + id + ". " + firstName + ", " + lastName + ", " + writePosts + ", " + region.getName() + ", " + role;
+        String writePosts = null;
+        String regionName = null;
+        if (this.posts != null) {
+            List<Long> posts = this.posts.stream().map(Post::getId).collect(Collectors.toList());
+            writePosts = posts.toString().replaceAll(" ", "");
+        }
+        if (this.region != null) {
+            regionName = region.getName();
+        }
+        return "\n" + id + ". " + firstName + ", " + lastName + ", " + writePosts + ", " + regionName + ", " + role;
     }
 
     public Long getId() {

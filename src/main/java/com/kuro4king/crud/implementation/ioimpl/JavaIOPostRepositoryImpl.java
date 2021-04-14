@@ -74,16 +74,16 @@ public class JavaIOPostRepositoryImpl implements PostRepository {
     }
 
     private void writeLines(String path, List<Post> list) throws IOException {
-        List newList = list.stream()
+        List<String> newList = list.stream()
                 .map(Post::write)
                 .collect(Collectors.toList());
         Files.write(Paths.get(path), newList);
     }
 
     private Post postFromLine(String line) throws ParseException {
-        String[] splitLine=line.split("\\. | Дата создания: | Дата изменения: ");
+        String[] splitLine = line.split("\\. | Дата создания: | Дата изменения: ");
         SimpleDateFormat df = new SimpleDateFormat("E MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
-        Post newPost =new Post(Long.parseLong(splitLine[0]), splitLine[1]);
+        Post newPost = new Post(Long.parseLong(splitLine[0]), splitLine[1]);
         newPost.setCreated(df.parse(splitLine[2]));
         newPost.setUpdated(df.parse(splitLine[3]));
         return newPost;

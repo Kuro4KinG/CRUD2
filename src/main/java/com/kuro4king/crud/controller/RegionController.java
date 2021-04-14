@@ -1,15 +1,26 @@
 package com.kuro4king.crud.controller;
 
+
 import com.kuro4king.crud.implementation.jsonimpl.JsonRegionRepositoryImpl;
 import com.kuro4king.crud.model.Region;
 import com.kuro4king.crud.implementation.ioimpl.JavaIORegionRepositoryImpl;
 import com.kuro4king.crud.repository.RegionRepository;
+import com.kuro4king.crud.view.ViewClass;
 
 import java.io.IOException;
 import java.util.List;
 
 public class RegionController {
-    private RegionRepository regionRepository = new JsonRegionRepositoryImpl();
+    private RegionRepository regionRepository;
+
+    public RegionController() {
+        if (ViewClass.format.equals("json")) {
+            regionRepository = new JsonRegionRepositoryImpl();
+        } else if (ViewClass.format.equals("txt")) {
+            regionRepository = new JavaIORegionRepositoryImpl();
+        }
+    }
+
 
     public Region createRegion(String name) throws IOException {
         Region region = new Region(null, name);

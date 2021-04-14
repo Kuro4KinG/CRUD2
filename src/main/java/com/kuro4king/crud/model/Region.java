@@ -1,7 +1,7 @@
 package com.kuro4king.crud.model;
 
 public class Region {
-    private Long id;
+    private final Long id;
     private String name;
 
     public void setName(String name) {

@@ -23,7 +23,6 @@ public class JsonPostRepositoryImpl implements PostRepository {
     public List<Post> getAll() throws IOException, ParseException {
         return gson.fromJson(new FileReader(postPath), new TypeToken<ArrayList<Post>>() {
         }.getType());
-
     }
 
     @Override

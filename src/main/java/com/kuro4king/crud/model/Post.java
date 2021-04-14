@@ -39,16 +39,8 @@ public class Post {
         this.content = content;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
     public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
     }
 
     public void setUpdated(Date updated) {

@@ -3,6 +3,7 @@ package com.kuro4king.crud.view;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 
 public class FIleVIew extends ViewClass {
+
     HashMap<Integer, String> fileList = new HashMap<>();
     int i;
     int exitNumber;
@@ -30,7 +32,7 @@ public class FIleVIew extends ViewClass {
             exit = true;
         } else {
             String file = fileList.get(choice);
-            String format = file.substring(file.lastIndexOf(".") + 1);
+            format = file.substring(file.lastIndexOf(".") + 1);
             String name = file.substring(0, file.lastIndexOf("."));
 
             switch (name) {
@@ -42,13 +44,13 @@ public class FIleVIew extends ViewClass {
     }
 
     @Override
-    protected void create() throws IOException, ParseException {
+    protected void create() {
         System.out.println("Данный функционал не реализован");
     }
 
     @Override
     protected void getAll() throws IOException, ParseException {
-        List files =
+        List<Path> files =
                 Files.walk(Paths.get("src/main/resources/files"))
                         .filter(Files::isRegularFile)
                         .collect(Collectors.toList());
