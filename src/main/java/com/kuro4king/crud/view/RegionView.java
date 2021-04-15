@@ -6,7 +6,7 @@ import com.kuro4king.crud.model.Region;
 import java.io.IOException;
 
 public class RegionView extends ViewClass {
-    private RegionController regionController = new RegionController();
+    private final RegionController regionController = new RegionController(format);
 
     protected void print() {
         System.out.println("Введите номер действия, которые желаете произвести:");

@@ -12,11 +12,9 @@ import java.util.stream.Collectors;
 
 
 public class FIleVIew extends ViewClass {
-
     HashMap<Integer, String> fileList = new HashMap<>();
-    int i;
-    int exitNumber;
-    int choice;
+    private int i;
+    private int exitNumber;
 
     public void print() throws IOException, ParseException {
         i = 1;
@@ -27,7 +25,7 @@ public class FIleVIew extends ViewClass {
     }
 
     public void choose() throws IOException, ParseException {
-        choice = scanner().nextInt();
+        int choice = scanner().nextInt();
         if (choice == exitNumber) {
             exit = true;
         } else {

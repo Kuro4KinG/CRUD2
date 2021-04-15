@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public class PostView extends ViewClass {
-    private PostController postController = new PostController();
-    boolean exit = false;
+
+    private final PostController postController = new PostController(format);
 
 
     protected void print() {
@@ -20,6 +20,7 @@ public class PostView extends ViewClass {
         System.out.println("5. Изменить содержимое поста.");
         System.out.println("6. Вернуться к выбору файла");
         exitMessage(7);
+
     }
 
     protected void choose() throws IOException, ParseException {

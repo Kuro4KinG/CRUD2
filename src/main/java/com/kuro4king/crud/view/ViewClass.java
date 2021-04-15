@@ -5,8 +5,8 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public abstract class ViewClass {
-    public static String format;
     boolean exit = false;
+    protected static String format;
 
     protected abstract void print() throws IOException, ParseException;
 

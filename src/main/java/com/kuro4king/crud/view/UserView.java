@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserView extends ViewClass {
-    private final UserController userController = new UserController();
+    private final UserController userController = new UserController(format);
 
     protected void print() {
         System.out.println("Введите номер действия, которые желаете произвести:");
@@ -50,15 +50,15 @@ public class UserView extends ViewClass {
         String post = scanner().nextLine();
         List<Post> listOfPosts = Arrays.stream(post.split(",")).map(el -> {
             try {
-                return new PostController().getPostById(Long.parseLong(el));
+                return new PostController(format).getPostById(Long.parseLong(el));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
             return null;
         }).collect(Collectors.toList());
         System.out.println("Выберите регион пользователя: ");
-        System.out.println(new RegionController().getAll());
-        Region region = new RegionController().getRegionById(Long.parseLong(scanner().nextLine()));
+        System.out.println(new RegionController(format).getAll());
+        Region region = new RegionController(format).getRegionById(Long.parseLong(scanner().nextLine()));
         System.out.println("Введите роль пользователя из перечисленных вариантов");
         System.out.println(Arrays.toString(Role.values()));
         Role role = Role.valueOf(scanner().nextLine());
@@ -102,15 +102,15 @@ public class UserView extends ViewClass {
         String post = scanner().nextLine();
         List<Post> listOfPosts = Arrays.stream(post.split(",")).map(el -> {
             try {
-                return new PostController().getPostById(Long.parseLong(el));
+                return new PostController(format).getPostById(Long.parseLong(el));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
             return null;
         }).collect(Collectors.toList());
         System.out.println("Выберите новый регион пользователя: ");
-        System.out.println(new RegionController().getAll());
-        Region region = new RegionController().getRegionById(Long.parseLong(scanner().nextLine()));
+        System.out.println(new RegionController(format).getAll());
+        Region region = new RegionController(format).getRegionById(Long.parseLong(scanner().nextLine()));
         System.out.println("Введите новую роль пользователя из перечисленных вариантов");
         System.out.println(Arrays.toString(Role.values()));
         Role role = Role.valueOf(scanner().nextLine());

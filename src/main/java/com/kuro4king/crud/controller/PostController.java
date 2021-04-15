@@ -1,10 +1,9 @@
 package com.kuro4king.crud.controller;
 
-import com.kuro4king.crud.implementation.ioimpl.JavaIOPostRepositoryImpl;
-import com.kuro4king.crud.implementation.jsonimpl.JsonPostRepositoryImpl;
+import com.kuro4king.crud.repository.implementation.ioimpl.JavaIOPostRepositoryImpl;
+import com.kuro4king.crud.repository.implementation.jsonimpl.JsonPostRepositoryImpl;
 import com.kuro4king.crud.model.Post;
 import com.kuro4king.crud.repository.PostRepository;
-import com.kuro4king.crud.view.ViewClass;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -14,15 +13,15 @@ import java.util.List;
 public class PostController {
     private PostRepository postRepository;
 
-    public PostController() {
-        if (ViewClass.format.equals("json")) {
+    public PostController(String format) {
+        if (format.equals("json")) {
             postRepository = new JsonPostRepositoryImpl();
-        } else if (ViewClass.format.equals("txt")) {
+        } else if (format.equals("txt")) {
             postRepository = new JavaIOPostRepositoryImpl();
         }
     }
 
-    public Post createPost(String content) throws IOException, ParseException {
+    public Post createPost(String content) {
         Post post = new Post(null, content);
         return postRepository.save(post);
     }
@@ -32,7 +31,7 @@ public class PostController {
 
     }
 
-    public void deletePost(Long id) throws IOException, ParseException {
+    public void deletePost(Long id) {
         postRepository.delete(id);
     }
 
@@ -40,7 +39,7 @@ public class PostController {
         return postRepository.getById(id);
     }
 
-    public Post updatePost(Long id, String name) throws IOException, ParseException {
+    public Post updatePost(Long id, String name) {
         Post updatedPost = new Post(id, name);
         updatedPost.setUpdated(new Date());
         return postRepository.update(updatedPost);

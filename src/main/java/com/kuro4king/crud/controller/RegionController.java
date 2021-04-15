@@ -1,11 +1,10 @@
 package com.kuro4king.crud.controller;
 
 
-import com.kuro4king.crud.implementation.jsonimpl.JsonRegionRepositoryImpl;
+import com.kuro4king.crud.repository.implementation.jsonimpl.JsonRegionRepositoryImpl;
 import com.kuro4king.crud.model.Region;
-import com.kuro4king.crud.implementation.ioimpl.JavaIORegionRepositoryImpl;
+import com.kuro4king.crud.repository.implementation.ioimpl.JavaIORegionRepositoryImpl;
 import com.kuro4king.crud.repository.RegionRepository;
-import com.kuro4king.crud.view.ViewClass;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,16 +12,16 @@ import java.util.List;
 public class RegionController {
     private RegionRepository regionRepository;
 
-    public RegionController() {
-        if (ViewClass.format.equals("json")) {
+    public RegionController(String format) {
+        if (format.equals("json")) {
             regionRepository = new JsonRegionRepositoryImpl();
-        } else if (ViewClass.format.equals("txt")) {
+        } else if (format.equals("txt")) {
             regionRepository = new JavaIORegionRepositoryImpl();
         }
     }
 
 
-    public Region createRegion(String name) throws IOException {
+    public Region createRegion(String name) {
         Region region = new Region(null, name);
         return regionRepository.save(region);
     }
@@ -31,11 +30,11 @@ public class RegionController {
         return regionRepository.getAll();
     }
 
-    public void deleteRegion(Long id) throws IOException {
+    public void deleteRegion(Long id) {
         regionRepository.delete(id);
     }
 
-    public Region getRegionById(Long id) throws IOException {
+    public Region getRegionById(Long id) {
         return regionRepository.getById(id);
     }
 
@@ -43,7 +42,7 @@ public class RegionController {
         return regionRepository.getByName(name);
     }
 
-    public Region updateRegion(Long id, String name) throws IOException {
+    public Region updateRegion(Long id, String name) {
         Region updatedRegion = new Region(id, name);
         return regionRepository.update(updatedRegion);
     }

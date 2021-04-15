@@ -1,4 +1,4 @@
-package com.kuro4king.crud.implementation.ioimpl;
+package com.kuro4king.crud.repository.implementation.ioimpl;
 
 import com.kuro4king.crud.repository.RegionRepository;
 
@@ -10,65 +10,76 @@ import java.util.stream.Collectors;
 import com.kuro4king.crud.model.Region;
 
 public class JavaIORegionRepositoryImpl implements RegionRepository {
-    final String regionPath = "src/main/resources/files/txt/regions.txt";
+    private final String regionPath = "src/main/resources/files/txt/regions.txt";
 
     @Override
-    public List<Region> getAll() throws IOException {
-        return getLines(regionPath).
+    public List<Region> getAll() {
+        return Objects.requireNonNull(getLines()).
                 stream()
                 .map(this::regionFromLine)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Region getById(Long id) throws IOException {
+    public Region getById(Long id) {
         return getAll().stream().filter(line -> line.getId().equals(id))
-                .collect(Collectors.toList()).get(0);
+                .findFirst().orElse(null);
     }
 
-    public Region getByName(String name) throws IOException {
+    public Region getByName(String name) {
         return getAll().stream().filter(line -> line.getName().equals(name))
-                .collect(Collectors.toList()).get(0);
+                .findFirst().orElse(null);
     }
 
     @Override
-    public Region save(Region newRegion) throws IOException {
+    public Region save(Region newRegion) {
         List<Region> regions = getAll();
         newRegion = new Region(generateID(regions), newRegion.getName());
         regions.add(newRegion);
-        writeLines(regionPath, regions);
+        writeLines(regions);
         return newRegion;
     }
 
     @Override
-    public Region update(Region region) throws IOException {
+    public Region update(Region region) {
         List<Region> regions = getAll();
         Region updatedRegion = regions.stream()
                 .filter(el -> el.getId().equals(region.getId()))
-                .findFirst().get();
-        updatedRegion.setName(region.getName());
-        writeLines(regionPath, regions);
+                .findFirst().orElse(null);
+        if (updatedRegion != null) {
+            updatedRegion.setName(region.getName());
+        }
+        writeLines(regions);
         return updatedRegion;
     }
 
     @Override
-    public void delete(Long id) throws IOException {
+    public void delete(Long id) {
         List<Region> regions = getAll();
         regions.remove(regions.stream().
                 filter(el -> el.getId().equals(id))
-                .collect(Collectors.toList()).get(0));
-        writeLines(regionPath, regions);
+                .findFirst().orElse(null));
+        writeLines(regions);
     }
 
-    private List<String> getLines(String path) throws IOException {
-        return Files.lines(Paths.get(path)).collect(Collectors.toList());
+    private List<String> getLines() {
+        try {
+            return Files.lines(Paths.get(regionPath)).collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private void writeLines(String path, List<Region> list) throws IOException {
-        List newList = list.stream()
+    private void writeLines(List<Region> list) {
+        List<String> newList = list.stream()
                 .map(Region::toString)
                 .collect(Collectors.toList());
-        Files.write(Paths.get(path), newList);
+        try {
+            Files.write(Paths.get(regionPath), newList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Region regionFromLine(String line) {
@@ -77,7 +88,7 @@ public class JavaIORegionRepositoryImpl implements RegionRepository {
     }
 
     private Long generateID(List<Region> list) {
-        return list.stream().map(Region::getId).max(Long::compare).get() + 1;
+        return list.stream().map(Region::getId).max(Long::compare).orElse(null) + 1;
     }
 }
 
